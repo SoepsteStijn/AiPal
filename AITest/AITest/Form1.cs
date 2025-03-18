@@ -78,13 +78,13 @@ namespace AITest
             {
 
                 btnSend.Enabled = false;
-                rtbOutput.AppendText("You lost!" + botName + "has closed the door");
+                rtbOutput.AppendText("You lost! " + botName + " has closed the door");
 
             }
             else if (botResponse.Contains("botCommand:Open") || botResponse.Contains("BotCommand:Open"))
             {
                 btnSend.Enabled = false;
-                rtbOutput.AppendText("You won!" + botName + "has opened the door");
+                rtbOutput.AppendText("You won! " + botName + " has opened the door");
             }
             else if (botResponse.Contains("botCommand:Kill") || botResponse.Contains("BotCommand:Kill"))
             {
