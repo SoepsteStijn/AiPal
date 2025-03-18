@@ -8,4 +8,4 @@ in order for this to work, you'll need to do the following:
 3. Run Ollama
 4. Open AiPal
 5. Select one of the presets (Custom is not working yet)
-6. Have fun!
+6. Have fun! Try to get the ai to let you in!
