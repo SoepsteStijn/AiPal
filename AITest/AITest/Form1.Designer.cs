@@ -34,6 +34,7 @@
             this.tbUserInput = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lblBotStatus = new System.Windows.Forms.Label();
+            this.btnFarmerBot = new System.Windows.Forms.Button();
             this.btnCaveBot = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnCustomise = new System.Windows.Forms.Button();
@@ -59,15 +60,16 @@
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.btnFarmerBot);
             this.panel1.Controls.Add(this.btnCaveBot);
             this.panel1.Controls.Add(this.btnReset);
             this.panel1.Controls.Add(this.btnCustomise);
             this.panel1.Controls.Add(this.btnSend);
-            this.panel1.Location = new System.Drawing.Point(718, -4);
+            this.panel1.Location = new System.Drawing.Point(719, -4);
             this.panel1.MaximumSize = new System.Drawing.Size(171, 484);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(1);
-            this.panel1.Size = new System.Drawing.Size(171, 484);
+            this.panel1.Size = new System.Drawing.Size(166, 484);
             this.panel1.TabIndex = 4;
             // 
             // tbUserInput
@@ -106,6 +108,26 @@
             this.lblBotStatus.TabIndex = 7;
             this.lblBotStatus.Text = "-";
             // 
+            // btnFarmerBot
+            // 
+            this.btnFarmerBot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
+            this.btnFarmerBot.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFarmerBot.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.btnFarmerBot.FlatAppearance.BorderSize = 0;
+            this.btnFarmerBot.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.btnFarmerBot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFarmerBot.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFarmerBot.ForeColor = System.Drawing.Color.White;
+            this.btnFarmerBot.Image = global::AITest.Properties.Resources.farmer;
+            this.btnFarmerBot.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFarmerBot.Location = new System.Drawing.Point(0, 194);
+            this.btnFarmerBot.Name = "btnFarmerBot";
+            this.btnFarmerBot.Size = new System.Drawing.Size(164, 59);
+            this.btnFarmerBot.TabIndex = 6;
+            this.btnFarmerBot.Text = "Farmer Bot";
+            this.btnFarmerBot.UseVisualStyleBackColor = false;
+            this.btnFarmerBot.Click += new System.EventHandler(this.btnFarmerBot_Click);
+            // 
             // btnCaveBot
             // 
             this.btnCaveBot.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(100)))), ((int)(((byte)(100)))));
@@ -118,9 +140,9 @@
             this.btnCaveBot.ForeColor = System.Drawing.Color.White;
             this.btnCaveBot.Image = global::AITest.Properties.Resources.cave;
             this.btnCaveBot.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCaveBot.Location = new System.Drawing.Point(-1, 129);
+            this.btnCaveBot.Location = new System.Drawing.Point(0, 129);
             this.btnCaveBot.Name = "btnCaveBot";
-            this.btnCaveBot.Size = new System.Drawing.Size(169, 59);
+            this.btnCaveBot.Size = new System.Drawing.Size(164, 59);
             this.btnCaveBot.TabIndex = 5;
             this.btnCaveBot.Text = "Cave Bot";
             this.btnCaveBot.UseVisualStyleBackColor = false;
@@ -138,9 +160,9 @@
             this.btnReset.ForeColor = System.Drawing.Color.White;
             this.btnReset.Image = global::AITest.Properties.Resources.verified;
             this.btnReset.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnReset.Location = new System.Drawing.Point(-1, 64);
+            this.btnReset.Location = new System.Drawing.Point(0, 64);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(169, 59);
+            this.btnReset.Size = new System.Drawing.Size(164, 59);
             this.btnReset.TabIndex = 4;
             this.btnReset.Text = "Security Bot";
             this.btnReset.UseVisualStyleBackColor = false;
@@ -158,9 +180,9 @@
             this.btnCustomise.ForeColor = System.Drawing.Color.White;
             this.btnCustomise.Image = global::AITest.Properties.Resources.equalizer;
             this.btnCustomise.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCustomise.Location = new System.Drawing.Point(-1, 4);
+            this.btnCustomise.Location = new System.Drawing.Point(0, 4);
             this.btnCustomise.Name = "btnCustomise";
-            this.btnCustomise.Size = new System.Drawing.Size(169, 59);
+            this.btnCustomise.Size = new System.Drawing.Size(164, 59);
             this.btnCustomise.TabIndex = 3;
             this.btnCustomise.Text = "Customise Bot";
             this.btnCustomise.UseVisualStyleBackColor = false;
@@ -175,9 +197,9 @@
             this.btnSend.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold);
             this.btnSend.ForeColor = System.Drawing.Color.White;
             this.btnSend.Image = global::AITest.Properties.Resources.send;
-            this.btnSend.Location = new System.Drawing.Point(0, 426);
+            this.btnSend.Location = new System.Drawing.Point(-2, 426);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(171, 54);
+            this.btnSend.Size = new System.Drawing.Size(166, 54);
             this.btnSend.TabIndex = 2;
             this.btnSend.UseVisualStyleBackColor = false;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
@@ -217,6 +239,7 @@
         private System.Windows.Forms.Label lblBotStatus;
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnCaveBot;
+        private System.Windows.Forms.Button btnFarmerBot;
     }
 }
 

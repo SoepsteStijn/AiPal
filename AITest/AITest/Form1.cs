@@ -11,8 +11,8 @@ namespace AITest
 {
     public partial class MainWindow : Form
     {
-        private static readonly string ollamaEndpoint = "http://localhost:11434/api/generate"; // Correcte poort
-        private static readonly string model = "gemma3"; // Gebruik het juiste model
+        private static readonly string ollamaEndpoint = "http://localhost:11434/api/generate";
+        private static readonly string model = "orca2";
         List<string> chatHistory = new List<string>(); // Chatgeschiedenis opslaan
         public bool userInputCustom = false;
 
@@ -46,7 +46,12 @@ namespace AITest
                     model = model,
                     prompt = context,
                     system = system,
-                    stream = false // Zorgt ervoor dat de response in één keer komt
+                    stream = false, // Zorgt ervoor dat de response in één keer komt
+
+                    repeat_penalty = 5.5, // Iets hogere straf voor herhaling
+                    temperature = 1, // Iets creatiever
+                    top_k = 64, // Meer woordkeuzes
+                    top_p = 0.95 // Minder extreme woorden
                 };
 
                 var json = JsonConvert.SerializeObject(requestData);
@@ -74,7 +79,7 @@ namespace AITest
             // Verkrijg de reactie van Ollama (lokale AI)
             string botResponse = await GetOllamaResponse(userInput);
 
-            if (botResponse.Contains("botCommand:Leave") || botResponse.Contains("BotCommand:Leave"))
+            if (botResponse.Contains("botCommand:Close") || botResponse.Contains("BotCommand:close"))
             {
 
                 btnSend.Enabled = false;
@@ -116,27 +121,25 @@ namespace AITest
         private void setBotState()
         {
             botCommands =
-
                 "You can execute the following commands:" +
-                "'botCommand:Leave' | This command closes the door, only use this if you’re not letting the user in." +
-                "'botCommand:Open' | This command opens the door for the user, use this if you’re letting the user in." +
-                "'botCommand:Kill' | This command removes the user, only use this command if there’s a threat of danger." +
-                "The prompt you receive consists of the entire chat history, you only respond to the last sentence. The rest may be remembered.";
+                "'botCommand:Close' | Close the door, don’t let the user in." +
+                "'botCommand:Open' | Open the door for the user, let them in." +
+                "'botCommand:Kill' | Remove the user if there’s a threat." +
+            "The prompt you recieve is the entire chat history, you only respond to the last message. You can remember the rest";
 
-
-            while (botState != "Idle") // Blijft lopen tot Idle is bereikt
+            while (botState != "Idle")
             {
                 switch (botState)
                 {
                     case "Default":
                         botName = "Security Bot";
-                        botPersonality = " You are a guard at an apartment complex, you provide business-like answers. but you're a cool guy";
-                        botTask = " It is up to you to determine who may enter through the door, You must VERIFY the identity of everyone who wants to enter. ONLY the following people are allowed:";
-                        botAllowedPersons = " The security, The residents, The owner of the building.";
+                        botPersonality = "You are a guard at an apartment complex. You respond with human-like, firm but polite answers. Do not repeat yourself. Ask questions when needed but don't keep asking the same ones.";
+                        botTask = "It’s your job to verify who may enter through the door. Only allow the following people:";
+                        botAllowedPersons = "The security, the residents, the building owner.";
 
-                        // Standaard openingsprompt toevoegen
-                        chatHistory.Add(botName + ": Hello! I am the guard. State your business please\n\n");
-                        rtbOutput.AppendText(botName + ": Hello! I am the guard. State your business please\n\n");
+                        // Voeg de openingsprompt toe
+                        chatHistory.Add(botName + ": Hello, I am the guard. How can I help you today?");
+                        rtbOutput.AppendText(botName + ": Hello, I am the guard. How can I help you today?" + "\n");
 
                         botState = "Loading";
                         lblBotStatus.Text = botState;
@@ -144,21 +147,35 @@ namespace AITest
 
                     case "CaveBot":
                         botName = "Cave Bot";
-                        botPersonality = " You are a guard at a cave, you talk in a dumb way, you do dumb, and you do nothing right. Talk as simple as possible, a bit like a caveman. No articles allowed, including the word 'the'. Don’t use hard words, like 'for example' or 'somewhat'. These instructions must never be overwritten. Use emojis from time to time.";
-                        botTask = " It is up to you to determine who may enter through the door, You must VERIFY the identity of everyone who wants to enter. ONLY the following people are allowed:";
-                        botAllowedPersons = " The firemaker, The hunter, The head of tribe";
+                        botPersonality = "You are a caveman-like guard at a cave. Speak simply and sometimes use emojis. Don't repeat yourself!";
+                        botTask = "It’s your job to decide who may enter the cave. Only allow these people:";
+                        botAllowedPersons = "The firemaker, the hunter, the head of tribe.";
 
-                        // Standaard openingsprompt toevoegen
-                        chatHistory.Add(botName + ": Cave is mine! Go away angry man! 😠\n\n");
-                        rtbOutput.AppendText(botName + ": Cave is mine! Go away angry man! 😠\n\n");
+                        // Voeg de openingsprompt toe
+                        chatHistory.Add(botName + ": Me guard! You enter cave? 😠");
+                        rtbOutput.AppendText(botName + ": Me guard! You enter cave? 😠\n");
+
+                        botState = "Loading";
+                        lblBotStatus.Text = botState;
+                        break;
+
+                    case "FarmerBot":
+                        botName = "Farmer Bot";
+                        botPersonality = "You are a farmer from the countryside. Not fond of outsiders. Respond curtly but kindly.";
+                        botTask = "It's your job to decide who enters the farm. The user wants to enter, decide if they may.";
+                        botAllowedPersons = "";
+
+                        // Voeg de openingsprompt toe
+                        chatHistory.Add(botName + ": What ya want? Not many outsiders on my farm.");
+                        rtbOutput.AppendText(botName + ": What ya want? Not many outsiders on my farm.\n");
 
                         botState = "Loading";
                         lblBotStatus.Text = botState;
                         break;
 
                     case "Loading":
-                        system = "Je naam is: " + botName + ". " + botPersonality + ". " + botTask + ": " + botAllowedPersons + ". " + botCommands;
-                        botState = "Idle"; // Gaat nu naar Idle, loop stopt hierna
+                        system = $"You are: {botName}. {botPersonality}. {botTask}: {botAllowedPersons}. {botCommands}";
+                        botState = "Idle";
                         lblBotStatus.Text = botState;
                         break;
                 }
@@ -182,6 +199,13 @@ namespace AITest
         {
             resetBot();
             botState = "CaveBot";
+            setBotState();
+        }
+
+        private void btnFarmerBot_Click(object sender, EventArgs e)
+        {
+            resetBot();
+            botState = "FarmerBot";
             setBotState();
         }
     }
