@@ -12,7 +12,7 @@ namespace AITest
     public partial class MainWindow : Form
     {
         private static readonly string ollamaEndpoint = "http://localhost:11434/api/generate";
-        private static readonly string model = "orca2";
+        private static readonly string model = "gemma3";
         List<string> chatHistory = new List<string>(); // Chatgeschiedenis opslaan
         public bool userInputCustom = false;
 
